@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 using N_Tier.Application.Exceptions;
 using N_Tier.Application.Extensions;
 using N_Tier.Application.Models;
@@ -14,12 +15,14 @@ public class TodoListService : ITodoListService
     private readonly IClaimService _claimService;
     private readonly IMapper _mapper;
     private readonly ITodoListRepository _todoListRepository;
+    private readonly IMemoryCache _memoryCache;
 
-    public TodoListService(ITodoListRepository todoListRepository, IMapper mapper, IClaimService claimService)
+    public TodoListService(ITodoListRepository todoListRepository, IMapper mapper, IClaimService claimService, IMemoryCache memoryCache)
     {
         _todoListRepository = todoListRepository;
         _mapper = mapper;
         _claimService = claimService;
+        _memoryCache = memoryCache;
     }
 
     public async Task<IEnumerable<TodoListResponseModel>> GetAllAsync()
@@ -81,9 +84,17 @@ public class TodoListService : ITodoListService
 
     public async Task<PagedResult<TodoListResponseModel>> GetAllDTOAsync(Options options)
     {
+        var cachedRsult = _memoryCache.Get<PagedResult<TodoListResponseModel>>("GetAllDTOAsync");
+
+        if (cachedRsult is not null)
+            return cachedRsult;
+
         var query = _todoListRepository.GetAllAsync();
 
         var result = await query.ToPagedResultAsync<TodoList, TodoListResponseModel>(options, _mapper);
+        var expirationTime = DateTimeOffset.Now.AddMinutes(5.0);
+
+        _memoryCache.Set("GetAllDTOAsync", result, expirationTime);
 
         return result;
     }

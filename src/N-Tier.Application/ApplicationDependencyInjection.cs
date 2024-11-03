@@ -7,8 +7,8 @@ using N_Tier.Application.MappingProfiles;
 using N_Tier.Application.Services;
 using N_Tier.Application.Services.DevImpl;
 using N_Tier.Application.Services.Impl;
-using N_Tier.Shared.Services.Impl;
 using N_Tier.Shared.Services;
+using N_Tier.Shared.Services.Impl;
 
 namespace N_Tier.Application;
 
@@ -19,6 +19,8 @@ public static class ApplicationDependencyInjection
         services.AddServices(env);
 
         services.RegisterAutoMapper();
+
+        services.RegisterCashing();
 
         return services;
     }
@@ -41,6 +43,11 @@ public static class ApplicationDependencyInjection
     private static void RegisterAutoMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(IMappingProfilesMarker));
+    }
+
+    private static void RegisterCashing(this IServiceCollection services)
+    {
+        services.AddMemoryCache();
     }
 
     public static void AddEmailConfiguration(this IServiceCollection services, IConfiguration configuration)
