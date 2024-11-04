@@ -34,14 +34,13 @@ public class TodoListService : ITodoListService
         return _mapper.Map<IEnumerable<TodoListResponseModel>>(todoLists);
     }
 
+    #region IQueryable vs IEnumurable
     public async Task<List<TodoList>> GetAllWithIQueryableAsync()
     {
-        var query = _todoListRepository.GetAll();
-        foreach (var todoList in query) 
-        { 
-        }
-        int count = query.Count();
+        IQueryable<TodoList> query = _todoListRepository.GetAll();
+        query = query.OrderByDescending(a => a.Title); //order
         query = query.Take(1);
+        int count = query.Count();
         var result = query.ToList();
 
         return result;
@@ -49,13 +48,15 @@ public class TodoListService : ITodoListService
 
     public List<TodoList> GetAllWithIEnumerable()
     {
-        var query = _todoListRepository.GetAllAsEnumurable();
-        query = query.Take(1);
-        int count = query.Count();
+        var query = _todoListRepository.GetAllAsEnumurable(); //select * from ;
+        query = query.OrderByDescending(a => a.Title);
+        query = query.Take(count: 1); //limit-1
+        int count = query.Count(); //query to db
         var result = query.ToList();
 
         return result;
     }
+    #endregion
 
     public async Task<CreateTodoListResponseModel> CreateAsync(CreateTodoListModel createTodoListModel)
     {
@@ -96,6 +97,7 @@ public class TodoListService : ITodoListService
         };
     }
 
+    #region Pagination ,Cashing,AutomAppet.ProjectTo();
     public async Task<PagedResult<TodoList>> GetAllAsync(Options options)
     {
         var query = _todoListRepository.GetAll();
@@ -121,4 +123,5 @@ public class TodoListService : ITodoListService
 
         return result;
     }
+    #endregion
 }

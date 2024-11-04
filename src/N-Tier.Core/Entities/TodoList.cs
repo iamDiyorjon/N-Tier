@@ -8,11 +8,11 @@ namespace N_Tier.Core.Entities
 
         public List<TodoItem> Items { get; } = new List<TodoItem>();
 
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
-        public string UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
 
         public DateTime? UpdatedOn { get; set; }
     }
