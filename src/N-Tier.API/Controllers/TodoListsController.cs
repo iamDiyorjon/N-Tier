@@ -3,6 +3,7 @@ using N_Tier.Application.Models;
 using N_Tier.Application.Models.TodoItem;
 using N_Tier.Application.Models.TodoList;
 using N_Tier.Application.Services;
+using N_Tier.Core.Entities;
 
 namespace N_Tier.API.Controllers;
 
@@ -38,6 +39,22 @@ public class TodoListsController : ApiController
         var result = await _todoListService.GetAllDTOAsync(options);
 
         return Ok(ApiResult<PagedResult<TodoListResponseModel>>.Success(result));
+    }
+
+    [HttpPost("all/quer")]
+    public async Task<IActionResult> GetAllQuery(Options options)
+    {
+        var result = await _todoListService.GetAllWithIQueryableAsync();
+
+        return Ok(ApiResult<List<TodoList>>.Success(result));
+    }
+
+    [HttpPost("all/enum")]
+    public ActionResult GetAllEnum(Options options)
+    {
+        var result = _todoListService.GetAllWithIEnumerable();
+
+        return Ok(ApiResult<List<TodoList>>.Success(result));
     }
 
     [HttpGet("{id:guid}/todoItems")]

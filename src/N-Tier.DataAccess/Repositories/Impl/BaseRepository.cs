@@ -33,11 +33,16 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return removedEntity;
     }
 
+    public IEnumerable<TEntity> GetAllAsEnumurable()
+    {
+        return DbSet.AsEnumerable();
+    }
+
     public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
     {
         return await DbSet.Where(predicate).ToListAsync();
     }
-    public IQueryable<TEntity> GetAllAsync() =>
+    public IQueryable<TEntity> GetAll() =>
         DbSet.AsQueryable();
 
     public async Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> predicate)

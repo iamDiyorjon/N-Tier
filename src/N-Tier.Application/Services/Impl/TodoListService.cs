@@ -34,6 +34,29 @@ public class TodoListService : ITodoListService
         return _mapper.Map<IEnumerable<TodoListResponseModel>>(todoLists);
     }
 
+    public async Task<List<TodoList>> GetAllWithIQueryableAsync()
+    {
+        var query = _todoListRepository.GetAll();
+        foreach (var todoList in query) 
+        { 
+        }
+        int count = query.Count();
+        query = query.Take(1);
+        var result = query.ToList();
+
+        return result;
+    }
+
+    public List<TodoList> GetAllWithIEnumerable()
+    {
+        var query = _todoListRepository.GetAllAsEnumurable();
+        query = query.Take(1);
+        int count = query.Count();
+        var result = query.ToList();
+
+        return result;
+    }
+
     public async Task<CreateTodoListResponseModel> CreateAsync(CreateTodoListModel createTodoListModel)
     {
         var todoList = _mapper.Map<TodoList>(createTodoListModel);
@@ -75,7 +98,7 @@ public class TodoListService : ITodoListService
 
     public async Task<PagedResult<TodoList>> GetAllAsync(Options options)
     {
-        var query = _todoListRepository.GetAllAsync();
+        var query = _todoListRepository.GetAll();
 
         var result = await query.ToPagedResultAsync(options);
 
@@ -89,7 +112,7 @@ public class TodoListService : ITodoListService
         if (cachedRsult is not null)
             return cachedRsult;
 
-        var query = _todoListRepository.GetAllAsync();
+        var query = _todoListRepository.GetAll();
 
         var result = await query.ToPagedResultAsync<TodoList, TodoListResponseModel>(options, _mapper);
         var expirationTime = DateTimeOffset.Now.AddMinutes(5.0);

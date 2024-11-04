@@ -11,6 +11,8 @@ public interface ITodoListService
     Task<BaseResponseModel> DeleteAsync(Guid id);
 
     Task<IEnumerable<TodoListResponseModel>> GetAllAsync();
+    Task<List<TodoList>> GetAllWithIQueryableAsync();
+    List<TodoList> GetAllWithIEnumerable();
     Task<PagedResult<TodoList>> GetAllAsync(Options options);
     Task<PagedResult<TodoListResponseModel>> GetAllDTOAsync(Options options);
     Task<UpdateTodoListResponseModel> UpdateAsync(Guid id, UpdateTodoListModel updateTodoListModel);
