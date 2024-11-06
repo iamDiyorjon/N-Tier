@@ -27,6 +27,8 @@ public static class DataAccessDependencyInjection
     {
         services.AddScoped<ITodoItemRepository, TodoItemRepository>();
         services.AddScoped<ITodoListRepository, TodoListRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
     }
 
     private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)

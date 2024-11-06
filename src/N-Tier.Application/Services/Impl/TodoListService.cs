@@ -36,12 +36,12 @@ public class TodoListService : ITodoListService
 
     public async Task<List<TodoList>> GetAllWithIQueryableAsync()
     {
-        var query = _todoListRepository.GetAll();
-        foreach (var todoList in query) 
-        { 
-        }
+        var query =  _todoListRepository.GetAll();
+        //foreach (var todoList in query) 
+        //{ 
+        //}
         int count = query.Count();
-        query = query.Take(1);
+        //query = query.Take(1);
         var result = query.ToList();
 
         return result;
@@ -107,17 +107,17 @@ public class TodoListService : ITodoListService
 
     public async Task<PagedResult<TodoListResponseModel>> GetAllDTOAsync(Options options)
     {
-        var cachedRsult = _memoryCache.Get<PagedResult<TodoListResponseModel>>("GetAllDTOAsync");
+        //var cachedRsult = _memoryCache.Get<PagedResult<TodoListResponseModel>>("GetAllDTOAsync");
 
-        if (cachedRsult is not null)
-            return cachedRsult;
+        //if (cachedRsult is not null)
+        //    return cachedRsult;
 
         var query = _todoListRepository.GetAll();
 
         var result = await query.ToPagedResultAsync<TodoList, TodoListResponseModel>(options, _mapper);
         var expirationTime = DateTimeOffset.Now.AddMinutes(5.0);
 
-        _memoryCache.Set("GetAllDTOAsync", result, expirationTime);
+        //_memoryCache.Set("GetAllDTOAsync", result, expirationTime);
 
         return result;
     }

@@ -21,8 +21,9 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
 
 
     public DbSet<TodoItem> TodoItems { get; set; }
-
     public DbSet<TodoList> TodoLists { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
