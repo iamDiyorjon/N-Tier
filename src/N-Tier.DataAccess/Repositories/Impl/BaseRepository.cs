@@ -35,7 +35,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public IEnumerable<TEntity> GetAllAsEnumurable()
     {
-        return DbSet.AsEnumerable();
+        return DbSet.AsEnumerable(); //DbSet-table
     }
 
     public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
