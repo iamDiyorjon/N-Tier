@@ -31,6 +31,7 @@ namespace N_Tier.Application.Services.Impl
         public async Task<ProductResponseModel> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var product = await _productRepository.GetFirstAsync(p => p.Id == id);
+            //typeof(Product).GetProperties();
 
             return new ProductResponseModel
             {

@@ -5,8 +5,10 @@ using N_Tier.API.Filters;
 using N_Tier.API.Middleware;
 using N_Tier.Application;
 using N_Tier.Application.Models.Validators;
+using N_Tier.Application.Services;
 using N_Tier.DataAccess;
 using N_Tier.DataAccess.Persistence;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +28,9 @@ builder.Services.AddJwt(builder.Configuration);
 
 builder.Services.AddEmailConfiguration(builder.Configuration);
 
+
 var app = builder.Build();
+
 
 using var scope = app.Services.CreateScope();
 
@@ -54,6 +58,7 @@ app.UseMiddleware<PerformanceMiddleware>();
 app.UseMiddleware<TransactionMiddleware>();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseRateLimiter();
 
 app.MapControllers();
 

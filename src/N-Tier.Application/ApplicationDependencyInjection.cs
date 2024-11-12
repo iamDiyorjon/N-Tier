@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using N_Tier.Application.Common.Email;
 using N_Tier.Application.MappingProfiles;
 using N_Tier.Application.Services;
@@ -9,11 +10,13 @@ using N_Tier.Application.Services.DevImpl;
 using N_Tier.Application.Services.Impl;
 using N_Tier.Shared.Services;
 using N_Tier.Shared.Services.Impl;
+using System.Reflection;
 
 namespace N_Tier.Application;
 
 public static class ApplicationDependencyInjection
 {
+    
     public static IServiceCollection AddApplication(this IServiceCollection services, IWebHostEnvironment env)
     {
         services.AddServices(env);
@@ -27,6 +30,8 @@ public static class ApplicationDependencyInjection
 
     private static void AddServices(this IServiceCollection services, IWebHostEnvironment env)
     {
+        /// var assembly = Assembly.GetExecutingAssembly();
+
         services.AddScoped<IWeatherForecastService, WeatherForecastService>();
         services.AddScoped<ITodoListService, TodoListService>();
         services.AddScoped<ITodoItemService, TodoItemService>();

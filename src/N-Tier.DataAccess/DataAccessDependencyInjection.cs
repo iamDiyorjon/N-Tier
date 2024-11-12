@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +10,8 @@ using N_Tier.DataAccess.Identity;
 using N_Tier.DataAccess.Persistence;
 using N_Tier.DataAccess.Repositories;
 using N_Tier.DataAccess.Repositories.Impl;
+using System.Reflection;
+using System.Threading.RateLimiting;
 
 namespace N_Tier.DataAccess;
 
@@ -17,18 +22,42 @@ public static class DataAccessDependencyInjection
         services.AddDatabase(configuration);
 
         services.AddIdentity();
+        var assembly = Assembly.GetExecutingAssembly();
+        services.AddRepositories(assembly, typeof(ICategoryRepository));
+        //Rate Limiting
+        services .AddRateLimiter(options =>
+        {
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-        services.AddRepositories();
+            options.AddFixedWindowLimiter("fixed", options =>
+            {
+                options.PermitLimit = 3;
+                options.Window = TimeSpan.FromSeconds(10);
+                options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                options.QueueLimit = 5;
+            });
+        });
 
         return services;
     }
 
-    private static void AddRepositories(this IServiceCollection services)
+    private static void AddRepositories(this IServiceCollection services, Assembly assembly, Type serviceType)
     {
-        services.AddScoped<ITodoItemRepository, TodoItemRepository>();
-        services.AddScoped<ITodoListRepository, TodoListRepository>();
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<IProductRepository, ProductRepository>();
+        
+            // Find all types in the assembly that implement the specified service type
+            var types = assembly.GetTypes()
+                .Where(t => t.IsClass && !t.IsAbstract && serviceType.IsAssignableFrom(t));
+
+            foreach (var implementationType in types)
+            {
+                // Register each found type with its interface
+                services.AddScoped(serviceType, implementationType);
+            }
+        
+        //services.AddScoped<ITodoItemRepository, TodoItemRepository>();
+        //services.AddScoped<ITodoListRepository, TodoListRepository>();
+        //services.AddScoped<ICategoryRepository, CategoryRepository>();
+        //services.AddScoped<IProductRepository, ProductRepository>();
     }
 
     private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)

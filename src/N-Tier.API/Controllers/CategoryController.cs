@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using N_Tier.Application.Models;
 using N_Tier.Application.Models.Category;
 using N_Tier.Application.Services;
@@ -30,6 +31,7 @@ namespace N_Tier.API.Controllers
         }
 
         [HttpGet]
+        [EnableRateLimiting("fixed")]
         public async Task<IActionResult> GetAllWithQuery()
         {
             var result = await _categoryService.GetAllWithIQueryableAsync();

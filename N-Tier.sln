@@ -5,17 +5,17 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7D5FD599-80EA-49B4-989F-6595AEE8FD22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N-Tier.API", "src\N-Tier.API\N-Tier.API.csproj", "{2CC654C6-BAF8-4737-B5F8-63298862D971}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "N-Tier.API", "src\N-Tier.API\N-Tier.API.csproj", "{2CC654C6-BAF8-4737-B5F8-63298862D971}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N-Tier.Core", "src\N-Tier.Core\N-Tier.Core.csproj", "{16F83F1B-516D-4390-8047-CDC821CE8C1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "N-Tier.Core", "src\N-Tier.Core\N-Tier.Core.csproj", "{16F83F1B-516D-4390-8047-CDC821CE8C1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N-Tier.DataAccess", "src\N-Tier.DataAccess\N-Tier.DataAccess.csproj", "{41D98C62-2ADC-47A0-B030-0193393B7B1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "N-Tier.DataAccess", "src\N-Tier.DataAccess\N-Tier.DataAccess.csproj", "{41D98C62-2ADC-47A0-B030-0193393B7B1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N-Tier.Application", "src\N-Tier.Application\N-Tier.Application.csproj", "{75BF25B7-C99C-404B-9F7A-E1461D6165B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "N-Tier.Application", "src\N-Tier.Application\N-Tier.Application.csproj", "{75BF25B7-C99C-404B-9F7A-E1461D6165B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B638F2B7-571E-4E34-9693-F6C251FE70B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N-Tier.Shared", "tests\N-Tier.Shared\N-Tier.Shared.csproj", "{7FE2A335-6410-40B1-91B2-3343C0177466}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "N-Tier.Shared", "tests\N-Tier.Shared\N-Tier.Shared.csproj", "{7FE2A335-6410-40B1-91B2-3343C0177466}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
