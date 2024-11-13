@@ -24,6 +24,14 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<TodoList> TodoLists { get; set; }
 
+    public DbSet<Person> People { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderDetails> OrdersDetails { get; set; }
+
+    public DbSet<Product> Products { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
