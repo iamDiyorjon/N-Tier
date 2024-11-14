@@ -19,5 +19,9 @@
   <ItemGroup>
     <ProjectReference Include="..\N-Tier.DataAccess\N-Tier.DataAccess.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Models\Validators\Employee\" />
+  </ItemGroup>
 
 </Project>

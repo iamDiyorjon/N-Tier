@@ -22,8 +22,7 @@ public static class DataAccessDependencyInjection
         services.AddDatabase(configuration);
 
         services.AddIdentity();
-        var assembly = Assembly.GetExecutingAssembly();
-        services.AddRepositories(assembly, typeof(ICategoryRepository));
+        services.AddRepositories(Assembly.GetExecutingAssembly());
         //Rate Limiting
         services .AddRateLimiter(options =>
         {
@@ -41,19 +40,26 @@ public static class DataAccessDependencyInjection
         return services;
     }
 
-    private static void AddRepositories(this IServiceCollection services, Assembly assembly, Type serviceType)
+    private static void AddRepositories(this IServiceCollection services, Assembly assembly)
     {
         
-            // Find all types in the assembly that implement the specified service type
-            var types = assembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && serviceType.IsAssignableFrom(t));
+        var repositoryTypes = assembly.GetTypes()
+           .Where(type => type.IsClass && !type.IsAbstract && type.GetInterfaces().Any(i => i.Name.EndsWith("Repository")))
+           .ToList();
 
-            foreach (var implementationType in types)
+        foreach (var repositoryType in repositoryTypes)
+        {
+            // Find the specific interface implemented by this repository
+            var specificInterface = repositoryType.GetInterfaces()
+                .FirstOrDefault(i => i.Name.EndsWith("Repository") && i != typeof(IBaseRepository<>));
+
+            if (specificInterface != null)
             {
-                // Register each found type with its interface
-                services.AddScoped(serviceType, implementationType);
+                // Register the specific interface with the repository type
+                Console.WriteLine($"Registering {repositoryType.Name} as {specificInterface.Name}");
+                services.AddScoped(specificInterface, repositoryType);
             }
-        
+        }
         //services.AddScoped<ITodoItemRepository, TodoItemRepository>();
         //services.AddScoped<ITodoListRepository, TodoListRepository>();
         //services.AddScoped<ICategoryRepository, CategoryRepository>();

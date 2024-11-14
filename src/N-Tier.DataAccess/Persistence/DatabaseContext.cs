@@ -1,10 +1,10 @@
-﻿using System.Reflection;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using N_Tier.Core.Common;
 using N_Tier.Core.Entities;
 using N_Tier.DataAccess.Identity;
 using N_Tier.Shared.Services;
+using System.Reflection;
 
 namespace N_Tier.DataAccess.Persistence;
 
@@ -24,10 +24,17 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
     public DbSet<TodoList> TodoLists { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    //public DbSet<OrderDetails> OrderDetails { get; set; }
 
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        builder.Entity<OrderDetails>()
+               .HasKey(od => new { od.OrderId, od.ProductId });
 
         base.OnModelCreating(builder);
     }

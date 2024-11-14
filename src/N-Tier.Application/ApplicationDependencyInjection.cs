@@ -8,6 +8,7 @@ using N_Tier.Application.MappingProfiles;
 using N_Tier.Application.Services;
 using N_Tier.Application.Services.DevImpl;
 using N_Tier.Application.Services.Impl;
+using N_Tier.DataAccess.Repositories;
 using N_Tier.Shared.Services;
 using N_Tier.Shared.Services.Impl;
 using System.Reflection;
@@ -19,7 +20,8 @@ public static class ApplicationDependencyInjection
     
     public static IServiceCollection AddApplication(this IServiceCollection services, IWebHostEnvironment env)
     {
-        services.AddServices(env);
+        var assembly = Assembly.GetExecutingAssembly();
+        services.AddServices(env, assembly);
 
         services.RegisterAutoMapper();
 
@@ -28,18 +30,33 @@ public static class ApplicationDependencyInjection
         return services;
     }
 
-    private static void AddServices(this IServiceCollection services, IWebHostEnvironment env)
+    private static void AddServices(this IServiceCollection services, IWebHostEnvironment env, Assembly assembly)
     {
-        /// var assembly = Assembly.GetExecutingAssembly();
+        var repositoryTypes = assembly.GetTypes()
+           .Where(type => type.IsClass && !type.IsAbstract && type.GetInterfaces().Any(i => i.Name.EndsWith("Service")))
+           .ToList();
 
-        services.AddScoped<IWeatherForecastService, WeatherForecastService>();
-        services.AddScoped<ITodoListService, TodoListService>();
-        services.AddScoped<ITodoItemService, TodoItemService>();
-        services.AddScoped<IUserService, UserService>();
+        foreach (var repositoryType in repositoryTypes)
+        {
+            // Find the specific interface implemented by this repository
+            var specificInterface = repositoryType.GetInterfaces()
+                .FirstOrDefault(i => i.Name.EndsWith("Service") && i != typeof(IBaseRepository<>));
+
+            if (specificInterface != null)
+            {
+                // Register the specific interface with the repository type
+                Console.WriteLine($"Registering {repositoryType.Name} as {specificInterface.Name}");
+                services.AddScoped(specificInterface, repositoryType);
+            }
+        }
+        //services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+        //services.AddScoped<ITodoListService, TodoListService>();
+        //services.AddScoped<ITodoItemService, TodoItemService>();
+        //services.AddScoped<IUserService, UserService>();
         services.AddScoped<IClaimService, ClaimService>();
-        services.AddScoped<ITemplateService, TemplateService>();
-        services.AddScoped<ICategoryService, CategoryService>();
-        services.AddScoped<IProductService, ProductService>();
+        //services.AddScoped<ITemplateService, TemplateService>();
+        //services.AddScoped<ICategoryService, CategoryService>();
+        //services.AddScoped<IProductService, ProductService>();
 
         if (env.IsDevelopment())
             services.AddScoped<IEmailService, DevEmailService>();
