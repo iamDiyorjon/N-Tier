@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using N_Tier.Application.Models;
-using N_Tier.Application.Models.Product;
+using N_Tier.Application.Models.ProductModels;
 using N_Tier.Application.Services;
 using N_Tier.Core.Entities;
 

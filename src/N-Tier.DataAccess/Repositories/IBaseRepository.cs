@@ -17,4 +17,8 @@ public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     Task<TEntity> UpdateAsync(TEntity entity);
 
     Task<TEntity> DeleteAsync(TEntity entity);
+    ValueTask<TEntity> SelectByIdWithDetailsAsync(
+        Expression<Func<TEntity, bool>> expression,
+        string[] includes);
+    Task<TEntity> SelectById(Guid id);
 }

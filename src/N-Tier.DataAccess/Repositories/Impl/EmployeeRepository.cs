@@ -5,8 +5,6 @@ namespace N_Tier.DataAccess.Repositories.Impl
 {
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
-        public EmployeeRepository(DatabaseContext context) : base(context)
-        {
-        }
+        public EmployeeRepository(DatabaseContext context) : base(context) { }
     }
 }

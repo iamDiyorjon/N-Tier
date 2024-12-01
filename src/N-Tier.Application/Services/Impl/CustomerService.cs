@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using N_Tier.Application.Models.Customer;
+using N_Tier.Application.Models.CustomerModels;
 using N_Tier.Core.Entities;
 using N_Tier.DataAccess.Repositories;
 
@@ -9,16 +9,19 @@ namespace N_Tier.Application.Services.Impl
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
-        public CustomerService(ICustomerRepository customerRepository, IMapper mapper)
+        private readonly IPersonRepository _personRepository;
+        public CustomerService(ICustomerRepository customerRepository, IMapper mapper, IPersonRepository personRepository)
         {
             _customerRepository = customerRepository;
             _mapper = mapper;
+            _personRepository = personRepository;
         }
-        public async Task<CreateCustomerResponseMOdel> CreateAsync(CreateCustomerModel createCustomerModel, CancellationToken cancellationToken = default)
+        public async Task<CreateCustomerResponseModel> CreateAsync(CreateCustomerModel createCustomerModel, CancellationToken cancellationToken = default)
         {
             var customer = _mapper.Map<Customer>(createCustomerModel);
+            //await _personRepository.AddAsync(customer.Person);
 
-            return new CreateCustomerResponseMOdel
+            return new CreateCustomerResponseModel
             {
                 Id = (await _customerRepository.AddAsync(customer)).Id,
             };

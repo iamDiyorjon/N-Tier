@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using N_Tier.Application.Models.Product;
+using N_Tier.Application.Models.ProductModels;
 using N_Tier.Core.Entities;
 using N_Tier.DataAccess.Repositories;
 

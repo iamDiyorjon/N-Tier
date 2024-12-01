@@ -12,5 +12,11 @@ namespace N_Tier.Core.Entities
         public DateTime? CreatedOn { get; set; }
         public string? UpdatedBy { get; set; }
         public DateTime? UpdatedOn { get; set; }
+
+        public Guid AddressId { get; set; }
+        public Address Address { get; set; } = null!;
+
+        //public virtual ICollection<Customer> Customers { get; set; }
+
     }
 }

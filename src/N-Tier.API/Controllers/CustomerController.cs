@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using N_Tier.Application.Models;
-using N_Tier.Application.Models.Customer;
+using N_Tier.Application.Models.CustomerModels;
 using N_Tier.Application.Services;
 
 namespace N_Tier.API.Controllers
@@ -16,7 +16,7 @@ namespace N_Tier.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateCustomerModel createCustomerModel)
         {
-            return Ok(ApiResult<CreateCustomerResponseMOdel>.Success(
+            return Ok(ApiResult<CreateCustomerResponseModel>.Success(
                 await _customerService.CreateAsync(createCustomerModel)));
         }
 

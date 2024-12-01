@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using N_Tier.Application.Models.Product;
+using N_Tier.Application.Models.ProductModels;
 using N_Tier.Application.Models.Validators.TodoItem;
 
 namespace N_Tier.Application.Models.Validators.Product

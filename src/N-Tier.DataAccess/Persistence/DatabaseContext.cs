@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using CRUD.Domain.Models.Entities.Info;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using N_Tier.Core.Common;
 using N_Tier.Core.Entities;
@@ -19,22 +20,29 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
 
-
     public DbSet<TodoItem> TodoItems { get; set; }
     public DbSet<TodoList> TodoLists { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Order> Orders { get; set; }
-    //public DbSet<OrderDetails> OrderDetails { get; set; }
+    public DbSet<OrderDetails> OrderDetails { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Region> Regions { get; set; }
+    public DbSet<District> Districts { get; set; }
 
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         builder.Entity<OrderDetails>()
                .HasKey(od => new { od.OrderId, od.ProductId });
+        builder.Entity<Person>()
+            .HasOne(p => p.Address)
+            .WithOne(a => a.Person)
+            .HasForeignKey<Address>(a => a.PersonId);
 
         base.OnModelCreating(builder);
     }
@@ -56,4 +64,6 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
 
         return await base.SaveChangesAsync(cancellationToken);
     }
+
+
 }

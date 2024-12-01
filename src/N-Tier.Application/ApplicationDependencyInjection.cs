@@ -54,6 +54,7 @@ public static class ApplicationDependencyInjection
         //services.AddScoped<ITodoItemService, TodoItemService>();
         //services.AddScoped<IUserService, UserService>();
         services.AddScoped<IClaimService, ClaimService>();
+        services.AddTransient<IUserFactory, UserFactory>();
         //services.AddScoped<ITemplateService, TemplateService>();
         //services.AddScoped<ICategoryService, CategoryService>();
         //services.AddScoped<IProductService, ProductService>();

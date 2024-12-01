@@ -1,4 +1,4 @@
-﻿using N_Tier.Application.Models.Product;
+﻿using N_Tier.Application.Models.ProductModels;
 using N_Tier.Core.Entities;
 using System;
 using System.Collections.Generic;

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using N_Tier.DataAccess.Authentification;
 using N_Tier.DataAccess.Identity;
 using N_Tier.DataAccess.Persistence;
 using N_Tier.DataAccess.Repositories;
@@ -49,17 +50,17 @@ public static class DataAccessDependencyInjection
 
         foreach (var repositoryType in repositoryTypes)
         {
-            // Find the specific interface implemented by this repository
             var specificInterface = repositoryType.GetInterfaces()
                 .FirstOrDefault(i => i.Name.EndsWith("Repository") && i != typeof(IBaseRepository<>));
 
             if (specificInterface != null)
             {
-                // Register the specific interface with the repository type
                 Console.WriteLine($"Registering {repositoryType.Name} as {specificInterface.Name}");
                 services.AddScoped(specificInterface, repositoryType);
             }
         }
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IJwtTokenHandler, JwtTokenHandler>();
         //services.AddScoped<ITodoItemRepository, TodoItemRepository>();
         //services.AddScoped<ITodoListRepository, TodoListRepository>();
         //services.AddScoped<ICategoryRepository, CategoryRepository>();

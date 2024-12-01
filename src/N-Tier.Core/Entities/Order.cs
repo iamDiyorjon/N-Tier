@@ -11,6 +11,10 @@ namespace N_Tier.Core.Entities
     {
         public DateTime OrderDate { get; set; }
         public List<OrderDetails> OrderDetails { get; } = new List<OrderDetails>();
+        public Customer Customer { get; set; }
+        public Guid CustomerId { get; set; }
+        public Employee Employee { get; set; }
+        public Guid EmployeeId { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string? UpdatedBy { get; set; }

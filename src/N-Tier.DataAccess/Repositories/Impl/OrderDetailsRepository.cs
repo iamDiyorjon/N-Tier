@@ -40,11 +40,8 @@ namespace N_Tier.DataAccess.Repositories.Impl
 
         public async Task<OrderDetails> GetFirstAsync(Expression<Func<OrderDetails, bool>> predicate)
         {
-            var entity = await DbSet.Where(predicate).FirstOrDefaultAsync();
-
-            if (entity == null) throw new ResourceNotFoundException(typeof(OrderDetails));
-
-            return await DbSet.Where(predicate).FirstOrDefaultAsync();
+            var entity = await DbSet.Where(predicate).FirstOrDefaultAsync() ?? throw new ResourceNotFoundException(typeof(OrderDetails));
+            return entity; //await DbSet.Where(predicate).FirstOrDefaultAsync();
         }
 
         public async Task<OrderDetails> UpdateAsync(OrderDetails entity)

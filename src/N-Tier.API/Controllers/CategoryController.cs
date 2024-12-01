@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using N_Tier.Application.Models;
 using N_Tier.Application.Models.Category;
@@ -7,6 +8,7 @@ using N_Tier.Core.Entities;
 
 namespace N_Tier.API.Controllers
 {
+    [Authorize]
     public class CategoryController : ApiController
     {
         private readonly ICategoryService _categoryService;
@@ -16,8 +18,7 @@ namespace N_Tier.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateCategoryModel createCategoryModel,
-            CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateAsync(CreateCategoryModel createCategoryModel)
         {
             return Ok(ApiResult<CreateCategoryResponseModel>.Success(
                 await _categoryService.CreateaAsync(createCategoryModel)));

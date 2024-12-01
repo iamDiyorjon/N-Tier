@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace N_Tier.Application.Models.Customer
+namespace N_Tier.Application.Models.CustomerModels
 {
     public class CustomerResponseModel : BaseResponseModel
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public Guid PersonId { get; set; }
     }
 }

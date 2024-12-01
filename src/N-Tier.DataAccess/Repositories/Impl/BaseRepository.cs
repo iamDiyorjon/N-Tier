@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using N_Tier.Core.Common;
+using N_Tier.Core.Entities;
 using N_Tier.Core.Exceptions;
 using N_Tier.DataAccess.Persistence;
 using System.Linq.Expressions;
@@ -60,5 +61,25 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         await Context.SaveChangesAsync();
 
         return entity;
+    }
+
+    public async ValueTask<TEntity> SelectByIdWithDetailsAsync(
+        Expression<Func<TEntity, bool>> expression,
+        string[] includes = null)
+    {
+        IQueryable<TEntity> entities = this.GetAll();
+
+        foreach (var include in includes)
+        {
+            entities = entities.Include(include);
+        }
+
+        return await entities.FirstOrDefaultAsync(expression);
+    }
+
+    public async Task<TEntity> SelectById(Guid id)
+    {
+        var entity = await DbSet.FirstOrDefaultAsync(e=>e.Id == id);
+        return entity ?? throw new ResourceNotFoundException(typeof(User));
     }
 }

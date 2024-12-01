@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Models.Product
+﻿namespace N_Tier.Application.Models.ProductModels
 {
     public class UpdateProductModel
     {

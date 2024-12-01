@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.Extensions.Configuration;
 using N_Tier.API;
 using N_Tier.API.Filters;
 using N_Tier.API.Middleware;
@@ -7,6 +8,7 @@ using N_Tier.Application;
 using N_Tier.Application.Models.Validators;
 using N_Tier.Application.Services;
 using N_Tier.DataAccess;
+using N_Tier.DataAccess.Authentification;
 using N_Tier.DataAccess.Persistence;
 using System.Reflection;
 
@@ -25,6 +27,8 @@ builder.Services.AddDataAccess(builder.Configuration)
     .AddApplication(builder.Environment);
 
 builder.Services.AddJwt(builder.Configuration);
+builder.Services.Configure<JwtOption>(builder.Configuration.GetSection("JwtOption"));
+
 
 builder.Services.AddEmailConfiguration(builder.Configuration);
 
