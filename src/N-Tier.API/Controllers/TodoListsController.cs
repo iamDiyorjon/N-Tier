@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using N_Tier.Application.Models;
 using N_Tier.Application.Models.TodoItem;
 using N_Tier.Application.Models.TodoList;
@@ -7,7 +8,7 @@ using N_Tier.Core.Entities;
 
 namespace N_Tier.API.Controllers;
 
-//[Authorize]
+[Authorize]
 public class TodoListsController : ApiController
 {
     private readonly ITodoItemService _todoItemService;
@@ -34,6 +35,7 @@ public class TodoListsController : ApiController
     //}
 
     [HttpPost("all")]
+    [Authorize]
     public async Task<IActionResult> GetAll(Options options)
     {
         var result = await _todoListService.GetAllDTOAsync(options);
